@@ -1,10 +1,9 @@
-import React from "react";
 
 const Login = (props) => {
     return (
-        <div className="login-container">
+        <div className="login-container text-center">
             <h1 className="welcome-message">Welcome to decentralized voting application</h1>
-            <button className="login-button" onClick = {props.connectWallet}>Login Metamask</button>
+            <button className="login-button mt-5" onClick = {props.connectWallet}>Login Metamask</button>
         </div>
     )
 }
