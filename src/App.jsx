@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {ethers} from 'ethers';
-import {contractAbi, contractAddress} from './Constants/Constant.js';
+import {contractAbi} from './Constants/Constant.js';
 import Login from './Components/Login';
 import Finished from './Components/Finished';
 import Connected from './Components/Connected';
@@ -8,10 +8,12 @@ import './App.css';
 
 
 function App() {
-  const [provider, setProvider] = useState(null);
+  const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
+  // const [provider, setProvider] = useState(null);
+  const votingStatus = true;
+  const [color, setColor] = useState('default');
   const [account, setAccount] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [votingStatus, setVotingStatus] = useState(true);
   const [remainingTime, setremainingTime] = useState('');
   const [candidates, setCandidates] = useState([]);
   const [number, setNumber] = useState('');
@@ -19,6 +21,7 @@ function App() {
 
 
   useEffect( () => {
+    // console.log(import.meta.env.VITE_CONTRACT_ADDRESS);
     getCandidates();
     getRemainingTime();
     // getCurrentStatus();
@@ -45,6 +48,7 @@ function App() {
       const tx = await contractInstance.vote(number);
       await tx.wait();
       canVote();
+      getCandidates();
   }
 
 
@@ -117,7 +121,7 @@ function App() {
     if (window.ethereum) {
       try {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
-        setProvider(provider);
+        // setProvider(provider);
         await provider.send("eth_requestAccounts", []);
         const signer = provider.getSigner();
         const address = await signer.getAddress();
@@ -134,6 +138,8 @@ function App() {
   }
 
   async function handleNumberChange(e) {
+    console.log('number seelcted', e.target.value);
+    e.target.value ? setColor('success') : setColor('default')
     setNumber(e.target.value);
   }
 
@@ -146,7 +152,8 @@ function App() {
                       number= {number}
                       handleNumberChange = {handleNumberChange}
                       voteFunction = {vote}
-                      showButton = {CanVote}/>) 
+                      showButton = {CanVote}
+                      color={color} />)
                       
                       : 
                       

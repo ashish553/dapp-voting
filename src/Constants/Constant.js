@@ -1,5 +1,3 @@
-const contractAddress = "0xFf41eE65E5Cfc9225e7fAA42108b43a28019DC92"; //volta
-
 const contractAbi = [
     {
       "inputs": [
@@ -165,4 +163,4 @@ const contractAbi = [
     }
   ];
 
-export {contractAbi, contractAddress};
+export {contractAbi};

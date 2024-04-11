@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import {Table, TableHeader, TableBody, TableColumn, TableRow, TableCell} from '@nextui-org/react'
+import {Select, SelectItem} from "@nextui-org/react";
 
 const Connected = (props) => {
     return (
@@ -10,10 +11,23 @@ const Connected = (props) => {
             { props.showButton ? (
                 <p className="connected-account text-center mt-4">You have already voted</p>
             ) : (
-                <div>
-                    <input type="number" placeholder="Entern Candidate Index" value={props.number} onChange={props.handleNumberChange}></input>
-            <br />
-            <button className="login-button" onClick={props.voteFunction}>Vote</button>
+                <div className='text-center'>
+                    {/* <input type="number" placeholder="Entern Candidate Index" value={props.number} onChange={props.handleNumberChange}></input> */}
+                    <Select
+                        label="Candidates"
+                        placeholder="Select your candidate"
+                        className="max-w-xs"
+                        color={props.color}
+                        onChange={props.handleNumberChange}
+                        >
+                        {props.candidates.map((candidate, index) => (
+                            <SelectItem key={index} value={candidate.index}>
+                            {candidate.name}
+                            </SelectItem>
+                        ))}
+                    </Select>
+                <br />
+                <button className="login-button text-center mt-5" onClick={props.voteFunction}>Vote</button>
 
                 </div>
             )}
