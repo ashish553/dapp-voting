@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import {Table, TableHeader, TableBody, TableColumn, TableRow, TableCell} from '@nextui-org/react'
 
 const Connected = (props) => {
     return (
         <div className="connected-container">
-            <h1 className="connected-header">You are Connected to Metamask</h1>
-            <p className="connected-account">Metamask Account: {props.account}</p>
-            <p className="connected-account">Remaining Time: {props.remainingTime}</p>
+            <h1 className="connected-header text-center mb-4">You are Connected to Metamask</h1>
+            <p className="connected-account text-center mb-4">Metamask Account: {props.account}</p>
+            {/* <p className="connected-account text-center mb-4">Remaining Time: {props.remainingTime}</p> */}
             { props.showButton ? (
-                <p className="connected-account">You have already voted</p>
+                <p className="connected-account text-center mt-4">You have already voted</p>
             ) : (
                 <div>
                     <input type="number" placeholder="Entern Candidate Index" value={props.number} onChange={props.handleNumberChange}></input>
@@ -18,25 +18,22 @@ const Connected = (props) => {
                 </div>
             )}
             
-            <table id="myTable" className="candidates-table">
-                <thead>
-                <tr>
-                    <th>Index</th>
-                    <th>Candidate name</th>
-                    <th>Candidate votes</th>
-                </tr>
-                </thead>
-                <tbody>
-                {props.candidates.map((candidate, index) => (
-                    <tr key={index}>
-                    <td>{candidate.index}</td>
-                    <td>{candidate.name}</td>
-                    <td>{candidate.voteCount}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            
+            <Table className="dark text-center mt-5">
+                <TableHeader>
+                    <TableColumn className="text-center">S.No.</TableColumn>
+                    <TableColumn className="text-center">Candidate name</TableColumn>
+                    <TableColumn className="text-center">Candidate votes</TableColumn>
+                </TableHeader>
+                <TableBody>
+                    {props.candidates.map((candidate, index) => (
+                        <TableRow key={index}>
+                            <TableCell>{candidate.index+1}</TableCell>
+                            <TableCell>{candidate.name}</TableCell>
+                            <TableCell>{candidate.voteCount}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
     )
 }

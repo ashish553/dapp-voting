@@ -6,6 +6,7 @@ import Finished from './Components/Finished';
 import Connected from './Components/Connected';
 import './App.css';
 
+
 function App() {
   const [provider, setProvider] = useState(null);
   const [account, setAccount] = useState(null);
@@ -20,7 +21,7 @@ function App() {
   useEffect( () => {
     getCandidates();
     getRemainingTime();
-    getCurrentStatus();
+    // getCurrentStatus();
     if (window.ethereum) {
       window.ethereum.on('accountsChanged', handleAccountsChanged);
     }
@@ -30,7 +31,7 @@ function App() {
         window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
       }
     }
-  });
+  },[]);
 
 
   async function vote() {
@@ -78,17 +79,18 @@ function App() {
   }
 
 
-  async function getCurrentStatus() {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-      const contractInstance = new ethers.Contract (
-        contractAddress, contractAbi, signer
-      );
-      const status = await contractInstance.getVotingStatus();
-      console.log(status);
-      setVotingStatus(status);
-  }
+  // async function getCurrentStatus() {
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     await provider.send("eth_requestAccounts", []);
+  //     const signer = provider.getSigner();
+  //     const contractInstance = new ethers.Contract (
+  //       contractAddress, contractAbi, signer
+  //     );
+  //     const status = await contractInstance.getVotingStatus();
+  //     console.log(status);
+  //     // if(status){}
+  //     setVotingStatus(status);
+  // }
 
   async function getRemainingTime() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -137,7 +139,7 @@ function App() {
 
   return (
     <div className="App">
-      { 0===0 ? (isConnected ? (<Connected 
+      { votingStatus ? (isConnected ? (<Connected 
                       account = {account}
                       candidates = {candidates}
                       remainingTime = {remainingTime}
