@@ -1,15 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ethers } from 'ethers';
 import { contractAbi } from './Constants/Constant.js';
 import Login from './Components/Login';
 import Finished from './Components/Finished';
 import Connected from './Components/Connected';
 import './App.css';
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
-
+import {pdata} from './Constants/part.js';
 
 
 function App() {
+  const [init, setInit] = useState(false);
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
+  const particlesLoaded = (container) => {
+    console.log(container);
+  };
+  const options = useMemo(()=>(pdata),[])
+
   const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
   // const [provider, setProvider] = useState(null);
   const votingStatus = true;
@@ -152,6 +167,13 @@ function App() {
   return (
     <div className="App">
       {/* <Button onPress={onOpen}>Open Modal</Button> */}
+      {
+        init && <Particles
+          id="tsparticles"
+          particlesLoaded={particlesLoaded}
+          options={options}
+        />
+      }
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
